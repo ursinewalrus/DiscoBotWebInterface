@@ -1,0 +1,18 @@
+﻿<form method="post" id="fileForm" enctype="multipart/form-data" asp-controller="Home/ProcessFile" asp-action="Index">
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload one or more files using this form:</p>
+            <input type="file" name="file" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="text" name="password" placeholder="PW KK told you" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Upload" />
+        </div>
+    </div>
+</form>

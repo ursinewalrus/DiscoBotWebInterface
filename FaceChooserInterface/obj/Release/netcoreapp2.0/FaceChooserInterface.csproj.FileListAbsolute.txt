@@ -1,0 +1,11 @@
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\bin\Release\netcoreapp2.0\FaceChooserInterface.deps.json
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\bin\Release\netcoreapp2.0\FaceChooserInterface.runtimeconfig.json
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\bin\Release\netcoreapp2.0\FaceChooserInterface.runtimeconfig.dev.json
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\bin\Release\netcoreapp2.0\FaceChooserInterface.dll
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\bin\Release\netcoreapp2.0\FaceChooserInterface.pdb
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\obj\Release\netcoreapp2.0\FaceChooserInterface.csprojResolveAssemblyReference.cache
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\obj\Release\netcoreapp2.0\FaceChooserInterface.csproj.CoreCompileInputs.cache
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\obj\Release\netcoreapp2.0\FaceChooserInterface.AssemblyInfoInputs.cache
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\obj\Release\netcoreapp2.0\FaceChooserInterface.AssemblyInfo.cs
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\obj\Release\netcoreapp2.0\FaceChooserInterface.dll
+C:\Users\jkerxhalli\Desktop\FaceChooserInterface\FaceChooserInterface\obj\Release\netcoreapp2.0\FaceChooserInterface.pdb
