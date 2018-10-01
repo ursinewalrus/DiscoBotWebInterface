@@ -21,13 +21,15 @@ namespace FaceChooserInterface.Controllers
             _config = config;
         }
 
-        public IActionResult Index(string result = "none", string errors = "")
+        public IActionResult Index(string result = "", string errors = "")
         {
+            ViewData["Result"] = result;
+            ViewData["Errors"] = errors;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProcessFile(string password, IFormFile File)
+        public async Task<IActionResult> ProcessFile(string password, IFormFile File = null)
         {
             var serverVariables = _config.GetSection("ServerVariables").GetChildren().ToList();
 
@@ -55,17 +57,24 @@ namespace FaceChooserInterface.Controllers
             {
                 errors += "To many uploads, yell at KK(don't)\n";
             }
-            var extension = File.FileName.Split('.').ToList().Last();
-            if(extension != "png" && extension != "jpg" && extension != "jpeg")
+            if (File == null)
             {
-                errors += "Wrong file type\n";
+                errors += "No file uploaded\n";
             }
-
-            var maxFileSize = Convert.ToInt32(serverVariables.Where(k => k.Key == "MaxFileSizeInBytes").First().Value);
+            else
+            {
+                var extension = File.FileName.Split('.').ToList().Last();
+                if (extension != "png" && extension != "jpg" && extension != "jpeg")
+                {
+                    errors += "Wrong file type\n";
+                }
+                 var maxFileSize = Convert.ToInt32(serverVariables.Where(k => k.Key == "MaxFileSizeInBytes").First().Value);
 
             if (File.Length > maxFileSize)
             {
                 errors += "File too large - 400 kb or less\n";
+            }
+
             }
 
             var result = "";
