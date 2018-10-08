@@ -57,6 +57,10 @@ namespace FaceChooserInterface.Controllers
             {
                 errors += "To many uploads, yell at KK(don't)\n";
             }
+            if(File.FileName.Split(' ').Length > 1)
+            {
+                errors += "No spaces in the file name, yell at Discord";
+            }
             if (File == null)
             {
                 errors += "No file uploaded\n";
