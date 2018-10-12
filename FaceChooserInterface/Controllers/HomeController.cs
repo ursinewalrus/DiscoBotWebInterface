@@ -15,10 +15,26 @@ namespace FaceChooserInterface.Controllers
     {
 
         private IConfiguration _config;
+        private List<IConfigurationSection> DiscoServerVariables;
+        private string Pw;
+        private int MaxFiles;
+        private int MaxFileSize;
+        private string DlDir;
 
         public HomeController(IConfiguration config)
         {
             _config = config;
+            DiscoServerVariables = _config.GetSection("DiscoServerVariables").GetChildren().ToList();
+#if DEBUG
+            DlDir = DiscoServerVariables.Where(k => k.Key == "UploadPathDebug").First().Value;
+#else
+            DlDir = DiscoServerVariables.Where(k => k.Key == "UploadPathProd").First().Value;
+#endif
+            Pw = DiscoServerVariables.Where(k => k.Key == "SubmitPW").First().Value;
+            MaxFiles = Convert.ToInt32(DiscoServerVariables.Where(k => k.Key == "MaxFiles").First().Value);
+            MaxFileSize = Convert.ToInt32(DiscoServerVariables.Where(k => k.Key == "MaxFileSizeInBytes").First().Value);
+
+
         }
 
         public IActionResult Index(string result = "", string errors = "")
@@ -31,29 +47,21 @@ namespace FaceChooserInterface.Controllers
         [HttpPost]
         public async Task<IActionResult> ProcessFile(string password, IFormFile File = null)
         {
-            var serverVariables = _config.GetSection("ServerVariables").GetChildren().ToList();
 
             var errors = "";
 
-            var pw = serverVariables.Where(k => k.Key == "SubmitPW").First().Value;
 
             //enforce no spaces or arguments for triggering discobot will have issues
 
-            if (pw != password)
+            if (Pw != password)
             {
                 errors += "Wrong password\n";
             }
-#if DEBUG
-            var dlDir = serverVariables.Where(k => k.Key == "UploadPathDebug").First().Value;
-#else
-            var dlDir = serverVariables.Where(k => k.Key == "UploadPathProd").First().Value;
-#endif
 
-            var UploadDirContents = Directory.GetFiles(dlDir);
+            var UploadDirContents = Directory.GetFiles(DlDir);
 
-            var maxFiles = Convert.ToInt32(serverVariables.Where(k => k.Key == "MaxFiles").First().Value);
 
-            if (UploadDirContents.Length >= maxFiles)
+            if (UploadDirContents.Length >= MaxFiles)
             {
                 errors += "To many uploads, yell at KK(don't)\n";
             }
@@ -72,9 +80,8 @@ namespace FaceChooserInterface.Controllers
                 {
                     errors += "Wrong file type\n";
                 }
-                 var maxFileSize = Convert.ToInt32(serverVariables.Where(k => k.Key == "MaxFileSizeInBytes").First().Value);
 
-            if (File.Length > maxFileSize)
+            if (File.Length > MaxFileSize)
             {
                 errors += "File too large - 400 kb or less\n";
             }
@@ -86,7 +93,7 @@ namespace FaceChooserInterface.Controllers
             if (errors == "")
             {
                 result = "Upload success";
-                var dlLocation = Path.Combine(dlDir, File.FileName);
+                var dlLocation = Path.Combine(DlDir, File.FileName);
                 using(var fs = new FileStream(dlLocation, FileMode.Create))
                 {
                     await File.CopyToAsync(fs);
