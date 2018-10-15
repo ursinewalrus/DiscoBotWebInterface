@@ -34,7 +34,7 @@ namespace FaceChooserInterface.Controllers
         public string GetDownloadableList()
         {
             var ext = new List<string> { ".zip" };
-            var files = Directory.GetFiles(DownloadableZipsLocation).Where(f => ext.Contains(Path.GetExtension(f))).ToList();
+            var files = Directory.GetFiles(DownloadableZipsLocation).Select(n => n.Split('\\').Last()).Where(f => ext.Contains(Path.GetExtension(f))).ToList();
             string returnOptions = string.Join("|", files);
             return returnOptions;
         }
@@ -44,12 +44,8 @@ namespace FaceChooserInterface.Controllers
         public async Task<IActionResult> Download([FromQuery(Name = "download")] string zipFile)
         {
             string zipLoc = DownloadableZipsLocation + "\\" + zipFile;
-            ;
-            using (FileStream fs = System.IO.File.OpenRead(zipLoc))
-            {
-                var returnData = await File(fs, "application/octet-stream");
-                return returnData;
-            }
+            Stream stream = new FileStream(zipLoc, FileMode.Open);
+            return File(stream, "application/octet-stream", zipFile);
         }
 
     }
